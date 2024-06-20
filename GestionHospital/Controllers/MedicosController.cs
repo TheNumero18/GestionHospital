@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GestionHospital.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionHospital.Controllers
 {
+    [Authorize]
     public class MedicosController : Controller
     {
         private readonly HospitalContext _context;
@@ -18,10 +15,27 @@ namespace GestionHospital.Controllers
             _context = context;
         }
 
+        [BindProperty(SupportsGet = true)]
+        public string buscarNombre { get; set; } = string.Empty;
+
+        [BindProperty(SupportsGet = true)]
+        public string buscarApellido { get; set; } = string.Empty;
+
+        [BindProperty(SupportsGet = true)]
+        public string buscarEspecialidad { get; set; } = string.Empty;
+
         // GET: Medicos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Medicos.ToListAsync());
+            //return View(await _context.Medicos.ToListAsync());
+            ViewData["nombre"] = buscarNombre;
+            ViewData["apellido"] = buscarApellido;
+            ViewData["especialidad"] = buscarEspecialidad;
+            return View(await _context.Medicos.
+                Where(p => (string.IsNullOrEmpty(buscarNombre) || p.Nombre.ToLower().Contains(buscarNombre.ToLower())) &&
+                    (string.IsNullOrEmpty(buscarApellido) || p.Apellido.ToLower().Contains(buscarApellido.ToLower())) &&
+                    (string.IsNullOrEmpty(buscarEspecialidad) || p.Especialidad.ToLower().Contains(buscarEspecialidad.ToLower()))
+                ).ToListAsync());
         }
 
         // GET: Medicos/Details/5
@@ -42,6 +56,7 @@ namespace GestionHospital.Controllers
             return View(medico);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: Medicos/Create
         public IActionResult Create()
         {
@@ -53,6 +68,7 @@ namespace GestionHospital.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create([Bind("Id,DNI,Nombre,Apellido,FechaNacimiento,Sexo,Domicilio,Telefono,Email,Especialidad")] Medico medico)
         {
             if (ModelState.IsValid)
@@ -65,6 +81,7 @@ namespace GestionHospital.Controllers
         }
 
         // GET: Medicos/Edit/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +102,7 @@ namespace GestionHospital.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DNI,Nombre,Apellido,FechaNacimiento,Sexo,Domicilio,Telefono,Email,Especialidad")] Medico medico)
         {
             if (id != medico.Id)
@@ -116,6 +134,7 @@ namespace GestionHospital.Controllers
         }
 
         // GET: Medicos/Delete/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +155,7 @@ namespace GestionHospital.Controllers
         // POST: Medicos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medico = await _context.Medicos.FindAsync(id);

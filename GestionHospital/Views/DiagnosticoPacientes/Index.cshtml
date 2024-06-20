@@ -10,6 +10,25 @@
 <p>
     <a asp-action="Create">Agregar Nuevo</a>
 </p>
+
+<form>
+    <div style="display:grid">
+        <div class="col-2">Paciente:</div>
+        <div class="col-10"><input type="text" name="buscarPaciente" value="@ViewData["paciente"]" /></div>
+    </div>
+    <div style="display:grid">
+        <div class="col-2">Médico:</div>
+        <div class="col-10"><input type="text" name="buscarMedico" value="@ViewData["medico"]" /></div>
+    </div>
+    <div style="display:grid">
+        <div class="col-2">Fecha:</div>
+        <div class="col-10"><input type="date" name="buscarFecha" value="@ViewData["fecha"]" /></div>
+    </div>
+    <p style="margin-top:5px">
+        <input type="submit" value="Buscar" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
