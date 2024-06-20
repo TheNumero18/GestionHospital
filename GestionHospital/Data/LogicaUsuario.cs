@@ -7,9 +7,9 @@ namespace GestionHospital.Data
     {
         public List<Usuario> ListaUsuarios(){
             return new List<Usuario>{
-                new Usuario{Nombre = "Admin", Email="Admin@Admin.com", Pass="1234", Roles = new string[] {"Administrador"}},
-                new Usuario{Nombre = "Recepcion", Email="Recepcion@recep.com", Pass="1234", Roles = new string[] {"Recepcion"}},
-                new Usuario{Nombre = "Medico", Email="Medico@med.com", Pass="1234", Roles = new string[] {"Medico"}}
+                new Usuario{Nombre = "Admin", Email="Admin@hospital.com", Pass="1234", Roles = new string[] {"Administrador"}},
+                new Usuario{Nombre = "Recepcion", Email="Recepcion@hospital.com", Pass="1234", Roles = new string[] {"Recepcion"}},
+                new Usuario{Nombre = "Medico", Email="Medico@hospital.com", Pass="1234", Roles = new string[] {"Medico"}}
             };
         }
 

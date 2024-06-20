@@ -67,7 +67,7 @@ namespace GestionHospital.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador,Recepcion")]
         public async Task<IActionResult> Create([Bind("Id,DNI,Nombre,Apellido,FechaNacimiento,Sexo,Telefono,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace GestionHospital.Controllers
         }
 
         // GET: Pacientes/Edit/5
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador,Recepcion")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +101,7 @@ namespace GestionHospital.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrado,Recepcionr")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DNI,Nombre,Apellido,FechaNacimiento,Sexo,Telefono,Email")] Paciente paciente)
         {
             if (id != paciente.Id)
@@ -133,7 +133,7 @@ namespace GestionHospital.Controllers
         }
 
         // GET: Pacientes/Delete/5
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador,Recepcion")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +154,7 @@ namespace GestionHospital.Controllers
         // POST: Pacientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador,Recepcion")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var paciente = await _context.Pacientes.FindAsync(id);
